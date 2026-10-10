@@ -1,0 +1,34 @@
+{
+  "name": "bing-webmaster",
+  "version": "1.0.0",
+  "description": "Command-line control of Bing Webmaster Tools: reports, keyword research, URL/sitemap submission, crawl settings, blocks, users — every API method, with dry-run-by-default writes.",
+  "type": "module",
+  "bin": {
+    "bing-webmaster": "bin/bing-webmaster.mjs"
+  },
+  "files": [
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.12"
+  },
+  "keywords": [
+    "bing",
+    "bing-webmaster",
+    "webmaster-tools",
+    "seo",
+    "cli",
+    "sitemap",
+    "indexing",
+    "keyword-research"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alihasuna/bing-webmaster-cli.git"
+  },
+  "homepage": "https://github.com/alihasuna/bing-webmaster-cli#readme",
+  "bugs": "https://github.com/alihasuna/bing-webmaster-cli/issues",
+  "license": "MIT"
+}
