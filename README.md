@@ -1,5 +1,7 @@
 # bing-webmaster
 
+[![npm](https://img.shields.io/npm/v/bing-webmaster)](https://www.npmjs.com/package/bing-webmaster) [![license](https://img.shields.io/npm/l/bing-webmaster)](LICENSE)
+
 Command-line control of [Bing Webmaster Tools](https://www.bing.com/webmasters) through its official API: search performance, keyword research, URL and sitemap submission, crawl settings, URL blocks, geo-targeting, users and more. Every API method has a command.
 
 - **Zero dependencies.** One Node.js file (Node 20.12+).
@@ -19,10 +21,14 @@ Command-line control of [Bing Webmaster Tools](https://www.bing.com/webmasters) 
 3. Run it with no install:
 
    ```bash
-   npx github:alihasuna/bing-webmaster-cli sites
+   npx bing-webmaster sites
    ```
 
-   Or clone the repo and run `npm link` to get a global `bing-webmaster` command.
+   Or install it globally to get a `bing-webmaster` command:
+
+   ```bash
+   npm install -g bing-webmaster
+   ```
 
 Use the site URL exactly as `bing-webmaster sites` prints it. A DNS-verified domain entry such as `https://example.com/` also covers `https://www.example.com/` pages.
 
