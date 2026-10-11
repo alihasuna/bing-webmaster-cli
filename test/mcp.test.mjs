@@ -139,6 +139,31 @@ test('confirm tokens expire after 10 minutes', async (t) => {
   assert.equal(calls.length, 0)
 })
 
+test('batched tools/call items run one at a time and keep their own siteUrl', async (t) => {
+  const A = 'https://a.example/'
+  const B = 'https://b.example/'
+  let first = true
+  const calls = mockFetch(t, {
+    GetSiteRoles: async (c) => {
+      if (first) {
+        first = false
+        await new Promise((r) => setTimeout(r, 20)) // slow first request: would interleave if run concurrently
+      }
+      const siteUrl = c.url.searchParams.get('siteUrl')
+      return [ROLE(siteUrl, 'owner@x.com', 0), ROLE(siteUrl, 'helper@x.com', 2)]
+    },
+  })
+  const server = createMcpServer()
+  const batch = [A, B].map((siteUrl) => rpc('tools/call', { name: 'remove_user', arguments: { email: 'helper@x.com', siteUrl } }))
+  const replies = await server.handle(batch)
+  assert.equal(replies.length, 2)
+  for (const c of calls) assert.ok([A, B].includes(c.url.searchParams.get('siteUrl')))
+  const plans = [...server.tokens.values()].map((e) => e.plan.body)
+  assert.deepEqual(plans.map((b) => [b.siteUrl, b.siteRole.Site]), [[A, A], [B, B]])
+})
+
+const ROLE = (site, email, role) => ({ __type: 'SiteRoles:#Microsoft.Bing.Webmaster.Api', Date: '/Date(1696748400000)/', Email: email, Expired: false, Role: role, Site: site })
+
 test('tool errors come back as isError results, not protocol errors', async (t) => {
   mockFetch(t, { GetCrawlStats: () => new Response(JSON.stringify({ ErrorCode: 14, Message: 'NotAuthorized' }), { status: 400 }) })
   const res = await createMcpServer().handle(rpc('tools/call', { name: 'crawl', arguments: { siteUrl: SITE } }))

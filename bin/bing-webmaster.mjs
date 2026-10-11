@@ -955,7 +955,12 @@ export function createMcpServer({ readOnly = false, now = () => Date.now() } = {
   async function handle(msg) {
     if (Array.isArray(msg)) {
       if (!msg.length) return rpcError(null, -32600, 'Invalid Request: empty batch')
-      const out = (await Promise.all(msg.map(handle))).filter(Boolean)
+      // Strictly one at a time: commands share the per-call context (flags/SITE).
+      const out = []
+      for (const m of msg) {
+        const r = await handle(m)
+        if (r) out.push(r)
+      }
       return out.length ? out : null
     }
     const isRequest = msg && typeof msg === 'object' && 'id' in msg && msg.id !== null
