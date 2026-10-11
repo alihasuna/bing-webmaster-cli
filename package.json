@@ -1,14 +1,18 @@
 {
   "name": "bing-webmaster",
-  "version": "1.0.0",
-  "description": "Command-line control of Bing Webmaster Tools: reports, keyword research, URL/sitemap submission, crawl settings, blocks, users — every API method, with dry-run-by-default writes.",
+  "version": "1.1.0",
+  "description": "Bing Webmaster Tools from the command line or as an MCP server for AI assistants: reports, keyword research, URL/sitemap/IndexNow submission, crawl settings, blocks, users. Dry-run-by-default writes.",
   "type": "module",
   "bin": {
     "bing-webmaster": "bin/bing-webmaster.mjs"
   },
+  "scripts": {
+    "test": "node --test"
+  },
   "files": [
     "bin/",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "engines": {
@@ -22,7 +26,13 @@
     "cli",
     "sitemap",
     "indexing",
-    "keyword-research"
+    "keyword-research",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "indexnow",
+    "ai",
+    "claude"
   ],
   "repository": {
     "type": "git",
